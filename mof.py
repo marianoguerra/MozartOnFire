@@ -23,6 +23,11 @@ def load_image(name, base='imgs'):
     return image, image.get_rect()
 
 
+def random_note():
+    '''generate a random note'''
+    return Note(random.randint(8, 20), random.randint(0, 3))
+
+
 class Note(object):
     '''representation of a note'''
 
@@ -41,11 +46,6 @@ class Note(object):
             self.accidental = Note.NATURAL
         else:
             self.accidental = accidental
-
-    @classmethod
-    def random(cls):
-        '''generate a random note'''
-        return Note(random.randint(8, 20), random.randint(0, 3))
 
 class Staff(object):
     '''a surface that holds notes'''
@@ -126,6 +126,21 @@ class Game(object):
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
 
+    def run(self, GameClass):
+        '''loop until we have to quit on user action'''
+        game = GameClass(self.screen, self.background)
+
+        do_quit = False
+
+        while not do_quit:
+            do_quit = game.step()
+
+
+class HitTheKeyGame(object):
+
+    def __init__(self, screen, background):
+        self.screen = screen
+        self.background = background
         self.gstaff = Staff(y=80)
         self.fstaff = Staff(y=300, clef='f')
         self.new_note()
@@ -147,7 +162,7 @@ class Game(object):
         staffs'''
 
         self.staff = random.choice(['f', 'g'])
-        self.last_note = Note.random()
+        self.last_note = random_note()
         self.last_pos  = random.randint(0, 6)
 
     def step(self):
@@ -184,13 +199,6 @@ class Game(object):
 
         return False
 
-    def run(self):
-        '''loop until we have to quit on user action'''
-        do_quit = False
-
-        while not do_quit:
-            do_quit = self.step()
-
     def draw_note(self):
         '''draw a random note on one of the staffs'''
 
@@ -216,4 +224,4 @@ class Game(object):
         self.background.blit(text, textpos)
 
 if __name__ == '__main__':
-    Game().run()
+    Game().run(HitTheKeyGame)
