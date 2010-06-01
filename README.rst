@@ -5,7 +5,7 @@ A simple game to learn to read music sheets.
 
 written in python using pygame.
 
-[Screenshot](http://marianoguerra.com.ar/img/MozartOnFire.png)
+Screenshot: http://marianoguerra.com.ar/img/MozartOnFire.png
 
 How to Play
 -----------
